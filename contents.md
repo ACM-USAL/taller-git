@@ -286,10 +286,66 @@ $ git diff <hash-1> <hash-2> # Muestra los cambios entre el commit <hash-1> y el
 $ git diff branch1..branch2 # Muestra las diferencias entre ambos branchs
 ```
 
-Algunas notas acerca de los nombres de commits:
+#### Un poco de clarificación acerca de `HEAD`
 
-* `HEAD`, como ya habíamos dicho, representa el último commit hecho al branch
-    actual, o el commit al que hagamos hecho checkout.
+Antes habíamos definido `HEAD`, como (casi siempre) el último commint hecho al
+branch actual. Esto es casi siempre cierto, pero para dar una definición más
+exacta, podríamos decir que:
+
+> HEAD es un alias, un puntero a un commit. Ese commit es el commit sobre el que
+estás trabajando en un determinado momento, y por lo tanto será el padre de tu
+siguiente commit.
+
+Hay que **diferenciar entre `HEAD` y los heads de un repositorio**. Los *heads*
+de un repositorio son los commits que tienen un nombre particular dentro del
+repositorio, por lo general los *branches*. El commit `HEAD`, apunta al *head*
+actual, que puede tener nombre (`master`, por ejemplo), o puede ser un commit
+cualquiera.
+
+Por ejemplo, si hacemos:
+
+```
+$ cat .git/HEAD
+ref: refs/heads/master
+```
+
+Veremos que actualmente está apuntando a `refs/heads/master`, que en este caso
+es:
+
+```
+cat .git/refs/heads/master
+e32ad43bbd01287fcb208fac5d1425f9412ba237
+```
+
+Si hacemos `checkout` del commit anterior a nuestro `HEAD`, pasaremos a lo que
+se llama *detached head*, un estado en el que nuestro `HEAD` no apunta a ningun
+commit con nombre, y que por lo tanto, salvo que hagamos un branch nuevo
+apuntando a ese commit (y por lo tanto un *head* con nombre), nuestros commits
+quedarán perdidos y sólo podrán ser accesibles via hash.
+
+```
+$ git checkout HEAD^
+Note: checking out 'HEAD^'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b new_branch_name
+
+  HEAD is now at 2a1c2dd... Modify hello.txt and allow converting to pdf
+```
+
+```
+$ cat .git/HEAD
+2a1c2dd7f0febaa0029c5fbb356b87a6526268e1
+```
+
+#### Algunas notas acerca de los nombres de commits
+
 * El símbolo `~` se puede usar para especificar commits anteriores en la
     historia. Así `HEAD~2` será el antepenúltimo commit, `HEAD~3` el anterior a
     ese, y así sucesivamente.
