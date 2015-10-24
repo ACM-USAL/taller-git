@@ -75,7 +75,7 @@ Git guarda los commits en un **grafo acíclico unidireccional** (vamos, que *cad
 commit tiene un padre*). Eso permite que varios commits tengan un mismo padre,
 es decir, que se diverja. Cada divergencia de la rama por defecto (`master`) es
 un branch (*más o menos, detached head, etc...*), y el último commit realizado a
-un branch se llama `HEAD`.
+un branch se llama `HEAD` (salvo cuando te encuentras en *detached head*).
 
 Los branchs tienen nombre, y se crean con `git branch <nombre>`.
 
@@ -289,7 +289,7 @@ $ git diff branch1..branch2 # Muestra las diferencias entre ambos branchs
 Algunas notas acerca de los nombres de commits:
 
 * `HEAD`, como ya habíamos dicho, representa el último commit hecho al branch
-    actual.
+    actual, o el commit al que hagamos hecho checkout.
 * El símbolo `~` se puede usar para especificar commits anteriores en la
     historia. Así `HEAD~2` será el antepenúltimo commit, `HEAD~3` el anterior a
     ese, y así sucesivamente.
